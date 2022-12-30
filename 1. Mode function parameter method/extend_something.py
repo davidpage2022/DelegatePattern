@@ -96,12 +96,34 @@ We'll explore two different solutions to this problem in part 2 and 3:
 - Classes method (using polymorphism)
 
 """
-from something import do_something
+import something
+
+
+def do_something(a, b, mode, value_on_zero_division=0):
+    if mode == "divide":
+        return divide(a, b, value_on_zero_division)
+    elif mode == "modulo":
+        return modulo(a, b)
+    else:
+        return something.do_something(a, b, mode)
+
+
+def divide(a, b, value_on_zero_division):
+    try:
+        return a / b
+    except ZeroDivisionError:
+        return value_on_zero_division
+
+
+def modulo(a, b):
+    return a % b
 
 
 def main():
-    do_something(2, 4, mode="divide")  # Produces a "mode not supported" error!
-    do_something(2, 0, mode="divide", value_on_zero_division=10)  # Produces an "unexpected keyword argument"!
+    print(do_something(4, 2, mode="add"))  # 6
+    print(do_something(4, 2, mode="divide"))  # 2.0
+    print(do_something(2, 0, mode="divide", value_on_zero_division=10))  # Output: 10
+    print(do_something(5, 4, mode="modulo"))  # Output: 1
 
 
 if __name__ == '__main__':
