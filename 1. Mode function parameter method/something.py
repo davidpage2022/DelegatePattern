@@ -10,13 +10,17 @@ The behaviour of the do_something() function is customised based which mode we s
 """
 
 
-def do_something(a, b, mode="add"):
+def do_something(a, b, mode="add", value_on_zero_division=0):
+    """Returns the result of applying an operation to two numbers - add, subtract, multiply or
+     divide.  The divide option is able to manage a Zero Division Error with a default result of 0."""
     if mode == "add":
         return add(a, b)
     elif mode == "subtract":
         return subtract(a, b)
     elif mode == "multiply":
         return multiply(a, b)
+    elif mode == "divide":
+        return divide(a, b, value_on_zero_division)
     else:
         raise Exception(f"'{mode}' mode not supported")
 
@@ -31,6 +35,13 @@ def subtract(a, b):
 
 def multiply(a, b):
     return a * b
+
+
+def divide(a, b, value_on_zero_division):
+    try:
+        return a / b
+    except ZeroDivisionError:
+        return value_on_zero_division
 
 
 def test_do_something():
