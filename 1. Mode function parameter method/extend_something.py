@@ -96,16 +96,17 @@ We'll explore two different solutions to this problem in part 2 and 3:
 - Classes method (using polymorphism)
 
 """
-import something
+import something  # Note that we are importing the module so that we can do something.do_something()
 
 
+# This function has the same name as the function do_something() inside something.py, but is a different function!
 def do_something(a, b, mode, value_on_zero_division=0):
     if mode == "divide":
         return divide(a, b, value_on_zero_division)
     elif mode == "modulo":
         return modulo(a, b)
     else:
-        return something.do_something(a, b, mode)  # Here is where we call do_something() in something.py
+        return something.do_something(a, b, mode)  # Here is where we call the do_something() in something.py
 
 
 def divide(a, b, value_on_zero_division):
@@ -120,6 +121,7 @@ def modulo(a, b):
 
 
 def main():
+    # Note that do_something() calls our own function, not the one inside something.py.
     print(do_something(4, 2, mode="add"))  # 6
     print(do_something(4, 2, mode="divide"))  # 2.0
     print(do_something(2, 0, mode="divide", value_on_zero_division=10))  # Output: 10
