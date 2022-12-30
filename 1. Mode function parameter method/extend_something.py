@@ -105,7 +105,7 @@ def do_something(a, b, mode, value_on_zero_division=0):
     elif mode == "modulo":
         return modulo(a, b)
     else:
-        return something.do_something(a, b, mode)
+        return something.do_something(a, b, mode)  # Here is where we call do_something() in something.py
 
 
 def divide(a, b, value_on_zero_division):
