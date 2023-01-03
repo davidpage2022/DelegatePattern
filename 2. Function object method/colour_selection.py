@@ -1,10 +1,9 @@
 """
-In this final exercise we practice using the show_word_colour function,
+In this final exercise we practice using the display_word_colour() function,
 which allows us to customise how it behaves.
 
-Create a function that takes in a word and returns the string "red"
-if the first letter of the word is lowercase.
-Otherwise, return "green".
+Create a function that takes in a word and returns the string "red" if
+the first letter of the word is lowercase. Otherwise, return "green".
 I recommend "select_colour" as a good name for the function.
 
 Next, modify the arguments passed into the display_word_colour functions in main()
@@ -14,9 +13,8 @@ so that the output is:
     green
 
 Do not modify display_word_colour in any way.
-Note: You may notice a resemblance to our WordCloud project ;)
 
-That's the end of part 2. The next part will try to achieve the same goal of
+That's the end of part 2. The part 3 will try to achieve the same goal of
 customising the behaviour of a function, but by using classes instead of function objects.
 Classes are more complex than function objects, but they allow greater flexibility
 in customising and extending behaviour.

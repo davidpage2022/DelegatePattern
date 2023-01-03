@@ -1,50 +1,34 @@
 """
-This file, along with handle_input.py demonstrate using function objects to allow
-users to customise the behaviour of a function.
+This file, along with handle_input.py demonstrates using function objects to allow
+users of a function to customise the behaviour of that function.
 
 Firstly, try running this file to get a feel for how it works.
 
-Now let's look a closer look:
+Now let's take a closer look:
 
-- You can see below in main() that we call the function handle_user_input().
+You can see below in main() that we call the function handle_user_input() (from handle_input.py).
+Now would be a good time to look at handle_input.py.
 
-  The first parameter is the message to display to the user.
-
-  The second parameter is the function that will be called when the user enters an integer.
-  In this case we use our handle_integer_input() function.
-
-  The third parameter is the function that will be called when the user enters anything other
-  than an integer. We pass in our handle_string_input() function.
-
-- The result of calling the function is that the user is asked for input.
-
-  If the input is an integer handle_integer_input() gets called with the number that the
-  user entered. Note that number is an integer.
-  Our function displays the square of the integer and then
-  returns true to indicate that we should keep asking for more input.
-
-  If the input is anything else, handle_string_input() gets called with whatever string
-  the user entered.
-  This time our function checks if the user entered "exit". If they did we return
-  False to indicate that we should stop asking for more input.
-  Otherwise, we return the length of the string entered.
+You'll notice that for the on_integer_input parameter we pass in our function handle_integer_input()
+and for the on_string_input we pass in handle_string_input().
 
 To help understand how flexible this can be, try the following exercise:
 
     Write a new function to be used in the on_integer_input parameter of handle_user_input().
-    Like handle_integer_input it should have one parameter representing the number the user entered.
-    Call it "my_integer_handler" and make it print the number and then
-    return True if the number is greater than 0.
+    Like handle_integer_input it should have one parameter: the number the user entered (an integer).
+    Call it "my_integer_handler" and make it print the number,
+    then return True if the number is greater than 0.
 
     Modify the code inside main() so that it uses your function instead of handle_integer_input().
 
     Run this file.
     Try entering the number 1. It should ask for another number.
-    Then try entering 0. It should exit.
+    Next, enter 0. It should exit.
 
-See how the function behaviour can be customised to do whatever you want it to.
+See how the behaviour of handle_user_input() can be customised in a variety of ways.
 
-Now let's finish off by having a look at handle_user_input(). Go to handle_input.py.
+Now that you've seen an example there's one final exercise to practice using customisable
+functions. Proceed to colour_selection.py.
 """
 
 from handle_input import handle_user_input
