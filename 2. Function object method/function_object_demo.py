@@ -210,7 +210,7 @@ result = customisable_function(2, 3, my_advanced_operation)
 print(result)
 
 """
-We'll see a more expanded example in the next file.
+We'll see a more expanded example in the next file, custom_input_handlers.py.
 For now, consider how this might help apply to our problem of needing to
 allow users of our function to customise how the function behaves.
 
