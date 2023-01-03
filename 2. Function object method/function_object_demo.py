@@ -4,13 +4,13 @@ Function Object:
 In Python functions are objects just like integers, strings, lists... etc.
 
 Function objects are often used for event handling, but are also useful for adding the ability to
-extend behaviour. For example they are commonly used in popular web framework Wordpress to create
+extend behaviour. For example, they are commonly used in the popular web framework Wordpress to create
 "hooks" that plugin developers can "hook" into to insert their own custom code.
 
-Let's have a look at this. Feel free to follow along using the Python Console so that you
+Let's have a look at this feature. I recommend following along using the Python Console so that you
 can experiment and see the outputs.
 
-Consider the following:
+Consider the following, then copy and paste it into the Python Console:
 """
 
 
@@ -29,7 +29,7 @@ x = do_thing
 x(5)
 
 """
-Notice that do_thing doesn't have any backets after it.
+Notice that do_thing doesn't have any brackets after it.
 Instead, the brackets are used in the next line.
 
 The output of x(5) is 6. But why?
@@ -52,6 +52,10 @@ y = x  # We can assign another variable that refers to the function do_thing.
 x(10)  # output: 11
 y(10)  # output: 11
 
+"""
+Consider the following:
+"""
+
 
 def calculate_thing(a, b):
     return a * b
@@ -62,12 +66,11 @@ result = y(3, 4)  # Now y refers to the function calculate_thing(), which takes 
 print(result)  # output: 12
 
 """
-Question: What happens if we try to call x(2, 3)? 
-Uncomment the lines to try it out.
+Question: What happens if we try to call x(2, 3)?
 """
 
-# result = x(2, 3)
-# print(result)
+result = x(2, 3)
+print(result)
 
 """
 The arguments must match the parameters of the function that x refers to.
@@ -85,7 +88,7 @@ x = say_hi
 x()  # Output: hi
 
 """
-So we can now see how to store functions in variables, but we can also use as function arguments.
+So we can now see how to store functions in variables, but we can also use them as function arguments.
 For instance, what will the output of the following be?: 
 """
 
@@ -107,38 +110,45 @@ Which is equivalent to:
 What would happen if we mistakenly used brackets after x instead? 
 """
 
-# perform_action(x())
+perform_action(x())
 
 """
 As the error message points out we are trying to call None.
 Why would x() be None? 
+
 Consider the following further example that uses y from above (calculate_thing):
 """
 
-# perform_action(y(2, 3))
+
+def display_result(operation):
+    result = operation()
+    print(result)
+
+
+display_result(y(2, 3))
 
 """
 Now the error is that the type 'int' is not callable.
 So if y(2, 3) is the same as calculate_thing(2, 3) then that evaluates to 6.
-Then we are calling perform_action(6).
-Inside the perform_action function we call
-    action()
-Where action refers to y, which is 6.
+Then we are calling display_result(6).
+Inside the display_result function we call
+    operation()
+Where operation refers to y, which is 6.
 Try to run the following code in the Python console and you'll get 'int' is not callable error.
 """
 
-# 6()
+6()
 
 """
 We could try to fix that by not using brackets:
 """
 
-# perform_action(y)
+display_result(y)
 
 """
 Now we get a different error. This time, that we are missing 2 required position arguments, a and b.
-Inside perform_action we call
-    action()
+Inside display_result we call
+    operation()
 Which evaluates to
     y()
 y refers to calculate_thing, which requires 2 arguments (a and b).
@@ -147,15 +157,16 @@ We could do the following to resolve the error.
 """
 
 
-def perform_action(action, a, b):
-    action(a, b)
+def display_result(operation, a, b):
+    result = operation(a, b)
+    print(result)
 
 
-perform_action(y, 2, 3)
+display_result(y, 2, 3)
 
 """
 You might be wondering how this could be useful, when we could simply call a function
-directly. Consider this:
+directly. Consider the following:
 """
 
 
@@ -172,7 +183,8 @@ def my_custom_operation(a, b):
     return a % b
 
 
-customisable_function(6, 5, my_custom_operation)  # Remember not to use brackets after my_custom_operation.
+result = customisable_function(6, 5, my_custom_operation)  # Remember not to use brackets after my_custom_operation.
+print(result)  # Output: 1
 
 """
 This is a flexible approach that has the following advantages:
@@ -194,10 +206,11 @@ def my_advanced_operation(a, b, factor):
     return (a + b) * factor
 
 
-# customisable_function(2, 3, my_advanced_operation)
+result = customisable_function(2, 3, my_advanced_operation)
+print(result)
 
 """
-We'll see a more expanded example in the next file.
+We'll see a more expanded example in the next file, custom_input_handlers.py.
 For now, consider how this might help apply to our problem of needing to
 allow users of our function to customise how the function behaves.
 
