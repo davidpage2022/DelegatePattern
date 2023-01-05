@@ -38,6 +38,8 @@ def multiply(a, b):
 
 
 def divide(a, b, value_on_zero_division):
+    """Divide one floating point number by another and return the answer.  Manage a Zero Division Error
+     with a default value defined by the main function."""
     try:
         return a / b
     except ZeroDivisionError:
@@ -53,3 +55,41 @@ def test_do_something():
 
 if __name__ == '__main__':
     test_do_something()
+
+
+class Something:
+    def __init__(self, a=0, b=0):
+        self.a = a
+        self.b = b
+
+    def add(self):
+        return self.a + self.b
+
+    def subtract(self):
+        return self.a - self.b
+
+    def multiply(self):
+        return self.a * self.b
+
+    def divide(self, value_on_zero_division=0):
+        try:
+            return self.a / self.b
+        except ZeroDivisionError:
+            return value_on_zero_division
+
+
+c = Something(16, 5)
+print(Something.add(c))
+
+
+class ExtendSomething(Something):
+
+    def __init__(self, a=0, b=0):
+        super().__init__(a=0, b=0)
+
+    def modulo(self):
+        return self.a % self.b
+
+
+b = ExtendSomething(12, 5)
+print(ExtendSomething.add(b))

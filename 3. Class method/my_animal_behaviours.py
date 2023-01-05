@@ -130,7 +130,51 @@ class HerbivoreBehaviour(AnimalBehaviour):
 
 class CarnivoreBehaviour(AnimalBehaviour):
     """Describes the behaviour of a meat-eating animal."""
+    HUNGER_DECREASE_ON_EAT = 0.2  # Higher level of decrease than for herbivores
+    CHANCE_TO_DIE_OF_AGE_PER_DAY_LIVED = 0.00018  # Higher daily chance of death than for herbivores
 
-    def __init__(self):
-        super().__init__()
 
+    def __init__(self, chance_to_find_food=0.05, chance_to_catch_prey=0.2, **kwargs):
+        """ Construct a carnivore behaviour. Inherited from AnimalBehaviour."""
+        super().__init__(**kwargs)  # Pass on keyword arguments to AnimalBehaviour.__init__().
+        self.chance_to_find_food = chance_to_find_food
+        self.chance_to_catch_prey = chance_to_catch_prey
+
+    def handle_hunt(self, animal, other_animals):  # Overrides AnimalBehaviour.handle_hunt()
+        """Handle an animal hunting for another animal to eat in the wild.
+
+        :param animal: The animal that is hunting.
+        :param other_animals: A list of all animals (excluding the animal that is hunting).
+        :returns: Returns the animal that was caught.
+        If no animal was caught, returns None."""
+        if random.uniform(0.0, 1.0) <= self.chance_to_catch_prey:
+            animal_to_eat = other_animals[random.randint(0, (len(other_animals) - 1))]
+            return animal_to_eat
+        else:
+            return None
+
+    def handle_eat(self, animal, animal_to_eat=None):  # Overrides AnimalBehaviour.handle_eat()
+        """Handles an animal eating another animal.
+
+        :param animal: The animal that is eating.
+        :param animal_to_eat: The animal being eaten. Is None if the animal is eating plant food."""
+        animal.hunger -= self.HUNGER_DECREASE_ON_EAT
+        if animal.hunger < 0.0:
+            animal.hunger = 0.0
+        if animal_to_eat.is_alive:
+            animal_to_eat.is_alive = False
+            return animal_to_eat.is_alive
+        else:
+            pass  # Do nothing by default.
+
+    def handle_day_passed(self, animal):  # Overrides AnimalBehaviour.handle_day_passed
+        """Handles a single day passing for an animal.
+
+        Call this method from the derived class to increase animal hunger.
+        The animal will die of starvation if hunger exceeds 1.0.
+        :param animal: The animal for which a day has passed."""
+        super().handle_day_passed(animal)
+        chance_to_die = animal.days_lived * self.CHANCE_TO_DIE_OF_AGE_PER_DAY_LIVED
+        random_chance = random.uniform(0.0, 1.0)
+        if random_chance <= chance_to_die:
+            animal.is_alive = False

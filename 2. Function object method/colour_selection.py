@@ -21,6 +21,32 @@ in customising and extending behaviour.
 """
 
 
+# def display_word_colour(word, colour_selector=None):
+#     if not colour_selector:
+#         print("Error: No colour_selector given")
+#         return
+#
+#     colour = colour_selector(word)
+#     print(colour)
+#
+#
+# def main():
+#     display_word_colour("lowercase")  # Output should be: red
+#     display_word_colour("UPPERCASE")  # Output should be: green
+#
+#
+# if __name__ == '__main__':
+#     main()
+
+
+def select_colour(word):
+    """Return a colour dependent on the first character of the word."""
+    if word[0].islower():
+        return "red"
+    else:
+        return "green"
+
+
 def display_word_colour(word, colour_selector=None):
     if not colour_selector:
         print("Error: No colour_selector given")
@@ -31,8 +57,8 @@ def display_word_colour(word, colour_selector=None):
 
 
 def main():
-    display_word_colour("lowercase")  # Output should be: red
-    display_word_colour("UPPERCASE")  # Output should be: green
+    display_word_colour("lowercase", select_colour)  # Output should be: red
+    display_word_colour("UPPERCASE", select_colour)  # Output should be: green
 
 
 if __name__ == '__main__':
