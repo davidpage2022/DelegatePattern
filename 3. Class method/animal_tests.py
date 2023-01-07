@@ -46,6 +46,8 @@ SIMULATE_INTERVAL = 10
 # SIMULATE_MAX_DAYS = 20
 # SIMULATE_INTERVAL = 1
 
+# Use a shorter gestation period for testing breeding
+
 
 def test_animals():
     """Test a simulation of animals in the wild, each with different behaviour."""
@@ -54,7 +56,7 @@ def test_animals():
     animals = []
     for i in range(NUMBER_OF_LIONS):
         behaviour = CarnivoreBehaviour(chance_to_find_food=0.2, chance_to_catch_prey=0.5)
-        animal = Animal("Lion", behaviour, gestation_period=3, starting_hunger=0.5)
+        animal = Animal("Lion", behaviour, gestation_period=110, starting_hunger=0.5)
         animals.append(animal)
     for i in range(NUMBER_OF_ANTELOPES):
         behaviour = HerbivoreBehaviour(chance_to_find_food=0.3)
