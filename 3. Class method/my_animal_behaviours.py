@@ -148,8 +148,8 @@ class CarnivoreBehaviour(AnimalBehaviour):
         :param other_animals: A list of all animals (excluding the animal that is hunting).
         :returns: Returns the animal that was caught.
         If no animal was caught, returns None."""
-        if random.uniform(0.0, 1.0) <= self.chance_to_catch_prey:
-            animal_to_eat = other_animals[random.randint(0, (len(other_animals) - 1))]
+        if random.uniform(0.0, 1.0) <= self.chance_to_catch_prey and len(other_animals) >= 1:
+            animal_to_eat = other_animals[random.randint(0, len(other_animals) - 1)]
             return animal_to_eat
         else:
             return None
@@ -182,7 +182,7 @@ class CarnivoreBehaviour(AnimalBehaviour):
         """Trigger the addition of offspring to the list and reset animal to not pregnant
         with 0 gestation days."""
         if animal.is_alive:
-            animal.postpartum = True
+            animal.is_postpartum = True
             animal.is_pregnant = False
             animal.days_gestation = 0
 

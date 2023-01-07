@@ -37,7 +37,7 @@ class Animal:
         self.days_lived = 0
         self.is_pregnant = False
         self.days_gestation = starting_gestation
-        self.postpartum = False
+        self.is_postpartum = False
 
     def __repr__(self):
         string = f"{self.name} (is_alive: {self.is_alive}, is_pregnant: {self.is_pregnant}, " \
@@ -72,10 +72,10 @@ class Animal:
             self.days_gestation += days_passed
         if self.days_gestation == self.gestation_period:
             behaviour.give_birth(self)
-            if self.postpartum:
+            if self.is_postpartum:
                 offspring = Animal(self.name, self.behaviour, self.gestation_period)
                 animals.append(offspring)
-                self.postpartum = False
+                self.is_postpartum = False
                 return animals
 
         # Handle response to time passing.

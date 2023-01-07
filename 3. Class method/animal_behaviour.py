@@ -68,7 +68,7 @@ class AnimalBehaviour(ABC):
         """Handle an animal hunting for another animal to eat in the wild.
 
         :param animal: The animal that is hunting.
-        :param other_animals: A list of all animals (excluding the animal that is hunting).
+        :param other_animals: A list of all live animals (excluding the animal that is hunting).
         :returns: Returns the animal that was caught.
         If no animal was caught, returns None."""
         return None

@@ -34,19 +34,20 @@ inside a function.
 from animal import Animal
 from my_animal_behaviours import HerbivoreBehaviour, CarnivoreBehaviour
 
-NUMBER_OF_LIONS = 4
-NUMBER_OF_ANTELOPES = 15
-SIMULATE_MAX_DAYS = 100
-SIMULATE_INTERVAL = 10
+# Original constants:
+# NUMBER_OF_LIONS = 4
+# NUMBER_OF_ANTELOPES = 15
+# SIMULATE_MAX_DAYS = 100
+# SIMULATE_INTERVAL = 10
 
 
 # Use these constants to test breeding:
-# NUMBER_OF_LIONS = 1
-# NUMBER_OF_ANTELOPES = 4
-# SIMULATE_MAX_DAYS = 20
-# SIMULATE_INTERVAL = 1
-
-# Use a shorter gestation period for testing breeding
+NUMBER_OF_LIONS = 1
+NUMBER_OF_ANTELOPES = 4
+SIMULATE_MAX_DAYS = 20
+SIMULATE_INTERVAL = 1
+# Use a shorter gestation period when testing breeding eg 3 days
+# Actual gestation period for: Lions - 110 days  Antelopes - 165 days
 
 
 def test_animals():
@@ -56,7 +57,7 @@ def test_animals():
     animals = []
     for i in range(NUMBER_OF_LIONS):
         behaviour = CarnivoreBehaviour(chance_to_find_food=0.2, chance_to_catch_prey=0.5)
-        animal = Animal("Lion", behaviour, gestation_period=110, starting_hunger=0.5)
+        animal = Animal("Lion", behaviour, gestation_period=3, starting_hunger=0.5)  # Actual gestation period 110 days
         animals.append(animal)
     for i in range(NUMBER_OF_ANTELOPES):
         behaviour = HerbivoreBehaviour(chance_to_find_food=0.3)
