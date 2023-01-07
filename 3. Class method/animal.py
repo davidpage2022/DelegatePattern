@@ -21,7 +21,7 @@ DO NOT MODIFY THIS FILE.
 class Animal:
     """Describes an animal in the wild."""
 
-    def __init__(self, name, behaviour, starting_hunger=0.5):
+    def __init__(self, name, behaviour, gestation_period=0, starting_hunger=0.5, starting_gestation=0):
         """Construct an animal with customisable behaviour.
 
         :param name: Name of the type of animal (e.g. "Lion").
@@ -31,12 +31,17 @@ class Animal:
         where 0.0 is not hungry and 1.0 is nearing starvation."""
         self.name = name
         self.behaviour = behaviour
+        self.gestation_period = gestation_period
         self.hunger = starting_hunger
         self.is_alive = True
         self.days_lived = 0
+        self.is_pregnant = False
+        self.days_gestation = starting_gestation
+        self.postpartum = False
 
     def __repr__(self):
-        string = f"{self.name} (is_alive: {self.is_alive}, hunger: {self.hunger:.2f})"
+        string = f"{self.name} (is_alive: {self.is_alive}, is_pregnant: {self.is_pregnant}, " \
+                 f"days pregnant: {self.days_gestation}, hunger: {self.hunger:.2f})"
         return f"{string:45}"
 
     def simulate(self, days_passed, animals):
@@ -60,6 +65,18 @@ class Animal:
         food_found = behaviour.handle_forage(self)
         if food_found:
             behaviour.handle_eat(self)
+
+        # Manage breeding
+        is_pregnant = behaviour.get_pregnant(self)
+        if is_pregnant:
+            self.days_gestation += days_passed
+        if self.days_gestation == self.gestation_period:
+            behaviour.give_birth(self)
+            if self.postpartum:
+                offspring = Animal(self.name, self.behaviour, self.gestation_period)
+                animals.append(offspring)
+                self.postpartum = False
+                return animals
 
         # Handle response to time passing.
         self.days_lived += days_passed

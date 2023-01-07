@@ -130,15 +130,16 @@ class HerbivoreBehaviour(AnimalBehaviour):
 
 class CarnivoreBehaviour(AnimalBehaviour):
     """Describes the behaviour of a meat-eating animal."""
-    HUNGER_DECREASE_ON_EAT = 0.2  # Higher level of decrease than for herbivores
-    CHANCE_TO_DIE_OF_AGE_PER_DAY_LIVED = 0.00018  # Higher daily chance of death than for herbivores
+    HUNGER_DECREASE_ON_EAT = 0.2
+    CHANCE_TO_DIE_OF_AGE_PER_DAY_LIVED = 0.00018
 
-
-    def __init__(self, chance_to_find_food=0.05, chance_to_catch_prey=0.2, **kwargs):
+    def __init__(self, chance_to_find_food=0.05, chance_to_catch_prey=0.2, chance_to_be_fertile=0.1,
+                 **kwargs):
         """ Construct a carnivore behaviour. Inherited from AnimalBehaviour."""
         super().__init__(**kwargs)  # Pass on keyword arguments to AnimalBehaviour.__init__().
         self.chance_to_find_food = chance_to_find_food
         self.chance_to_catch_prey = chance_to_catch_prey
+        self.chance_to_be_fertile = chance_to_be_fertile
 
     def handle_hunt(self, animal, other_animals):  # Overrides AnimalBehaviour.handle_hunt()
         """Handle an animal hunting for another animal to eat in the wild.
@@ -157,15 +158,33 @@ class CarnivoreBehaviour(AnimalBehaviour):
         """Handles an animal eating another animal.
 
         :param animal: The animal that is eating.
-        :param animal_to_eat: The animal being eaten. Is None if the animal is eating plant food."""
+        :param animal_to_eat: The animal being eaten. Is None if the animal is eating plant food.
+        :returns: Returns the is_alive status of the animal being eaten as False."""
         animal.hunger -= self.HUNGER_DECREASE_ON_EAT
         if animal.hunger < 0.0:
             animal.hunger = 0.0
         if animal_to_eat.is_alive:
             animal_to_eat.is_alive = False
             return animal_to_eat.is_alive
-        else:
-            pass  # Do nothing by default.
+
+    def get_pregnant(self, animal):
+        """Handle an animal becoming pregnant."""
+        if animal.is_alive:
+            if animal.hunger / random.uniform(1.0, 2.0) <= self.chance_to_be_fertile:
+                animal.is_pregnant = True
+                return animal.is_pregnant
+
+    def count_gestation(self, animal):
+        """Count the number the days that the animal is pregnant."""
+        animal.days_gestation += 1
+
+    def give_birth(self, animal):
+        """Trigger the addition of offspring to the list and reset animal to not pregnant
+        with 0 gestation days."""
+        if animal.is_alive:
+            animal.postpartum = True
+            animal.is_pregnant = False
+            animal.days_gestation = 0
 
     def handle_day_passed(self, animal):  # Overrides AnimalBehaviour.handle_day_passed
         """Handles a single day passing for an animal.

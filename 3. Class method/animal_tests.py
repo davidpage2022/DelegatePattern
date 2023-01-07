@@ -40,6 +40,13 @@ SIMULATE_MAX_DAYS = 100
 SIMULATE_INTERVAL = 10
 
 
+# Use these constants to test breeding:
+# NUMBER_OF_LIONS = 1
+# NUMBER_OF_ANTELOPES = 4
+# SIMULATE_MAX_DAYS = 20
+# SIMULATE_INTERVAL = 1
+
+
 def test_animals():
     """Test a simulation of animals in the wild, each with different behaviour."""
 
@@ -47,7 +54,7 @@ def test_animals():
     animals = []
     for i in range(NUMBER_OF_LIONS):
         behaviour = CarnivoreBehaviour(chance_to_find_food=0.2, chance_to_catch_prey=0.5)
-        animal = Animal("Lion", behaviour, starting_hunger=0.5)
+        animal = Animal("Lion", behaviour, gestation_period=3, starting_hunger=0.5)
         animals.append(animal)
     for i in range(NUMBER_OF_ANTELOPES):
         behaviour = HerbivoreBehaviour(chance_to_find_food=0.3)
