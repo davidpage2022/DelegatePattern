@@ -167,8 +167,9 @@ class CarnivoreBehaviour(AnimalBehaviour):
             animal_to_eat.is_alive = False
             return animal_to_eat.is_alive
 
-    def get_pregnant(self, animal):
-        """Handle an animal becoming pregnant."""
+    def set_as_pregnant(self, animal):
+        """Assign a live animal as pregnant using factors of low hunger level, high fertility
+        and randomisation, and return is_pregnant as True."""
         if animal.is_alive:
             if animal.hunger / random.uniform(1.0, 2.0) <= self.chance_to_be_fertile:
                 animal.is_pregnant = True

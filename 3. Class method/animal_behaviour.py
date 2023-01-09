@@ -87,7 +87,7 @@ class AnimalBehaviour(ABC):
         :param animal_to_eat: The animal being eaten. Is None if the animal is eating plant food."""
         pass  # Do nothing by default.
 
-    def get_pregnant(self, animal):
+    def set_as_pregnant(self, animal):
         pass
 
     def count_gestation(self, animal):

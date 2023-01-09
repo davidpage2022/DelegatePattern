@@ -67,7 +67,7 @@ class Animal:
             behaviour.handle_eat(self)
 
         # Manage breeding
-        is_pregnant = behaviour.get_pregnant(self)
+        is_pregnant = behaviour.set_as_pregnant(self)
         if is_pregnant:
             self.days_gestation += days_passed
         if self.days_gestation == self.gestation_period:
