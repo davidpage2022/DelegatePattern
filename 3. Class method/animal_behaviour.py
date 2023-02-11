@@ -47,6 +47,7 @@ DO NOT MODIFY THIS FILE.
 
 """
 from abc import ABC, abstractmethod
+from animal import Animal
 
 
 class AnimalBehaviour(ABC):
@@ -54,7 +55,7 @@ class AnimalBehaviour(ABC):
 
     Create your own classes that derive from AnimalBehaviour to customise the behaviour."""
 
-    @abstractmethod
+    # @abstractmethod
     def __init__(self, hunger_increase_per_day=0.005):
         """Construct an animal behaviour.
 
@@ -87,13 +88,13 @@ class AnimalBehaviour(ABC):
         :param animal_to_eat: The animal being eaten. Is None if the animal is eating plant food."""
         pass  # Do nothing by default.
 
-    def set_as_pregnant(self, animal):
-        pass
-
-    def count_gestation(self, animal):
+    def handle_breeding(self, animal):
         pass
 
     def give_birth(self, animal):
+        pass
+
+    def create_offspring(self, animal):
         pass
 
     def handle_day_passed(self, animal):

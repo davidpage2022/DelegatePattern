@@ -67,16 +67,17 @@ class Animal:
             behaviour.handle_eat(self)
 
         # Manage breeding
-        is_pregnant = behaviour.set_as_pregnant(self)
+        is_pregnant = behaviour.handle_breeding(self)
         if is_pregnant:
             self.days_gestation += days_passed
-        if self.days_gestation == self.gestation_period:
+        if self.days_gestation >= self.gestation_period:
             behaviour.give_birth(self)
             if self.is_postpartum:
-                offspring = Animal(self.name, self.behaviour, self.gestation_period)
+                offspring = behaviour.create_offspring(animal=self)
                 animals.append(offspring)
                 self.is_postpartum = False
                 return animals
+
 
         # Handle response to time passing.
         self.days_lived += days_passed

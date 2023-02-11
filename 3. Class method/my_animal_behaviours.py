@@ -80,6 +80,7 @@ Refer to animal_tests.py for expected output.
 """
 import random
 
+from animal import Animal
 from animal_behaviour import AnimalBehaviour
 
 
@@ -167,17 +168,13 @@ class CarnivoreBehaviour(AnimalBehaviour):
             animal_to_eat.is_alive = False
             return animal_to_eat.is_alive
 
-    def set_as_pregnant(self, animal):
+    def handle_breeding(self, animal):
         """Assign a live animal as pregnant using factors of low hunger level, high fertility
         and randomisation, and return is_pregnant as True."""
         if animal.is_alive:
             if animal.hunger / random.uniform(1.0, 2.0) <= self.chance_to_be_fertile:
                 animal.is_pregnant = True
                 return animal.is_pregnant
-
-    def count_gestation(self, animal):
-        """Count the number the days that the animal is pregnant."""
-        animal.days_gestation += 1
 
     def give_birth(self, animal):
         """Trigger the addition of offspring to the list and reset animal to not pregnant
@@ -186,6 +183,11 @@ class CarnivoreBehaviour(AnimalBehaviour):
             animal.is_postpartum = True
             animal.is_pregnant = False
             animal.days_gestation = 0
+
+    def create_offspring(self, animal):
+        """Create a new object of the animal."""
+        offspring = Animal(animal.name, animal.behaviour, animal.gestation_period)
+        return offspring
 
     def handle_day_passed(self, animal):  # Overrides AnimalBehaviour.handle_day_passed
         """Handles a single day passing for an animal.
