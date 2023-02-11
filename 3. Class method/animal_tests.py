@@ -36,8 +36,8 @@ from my_animal_behaviours import HerbivoreBehaviour, CarnivoreBehaviour
 
 NUMBER_OF_LIONS = 4
 NUMBER_OF_ANTELOPES = 15
-SIMULATE_MAX_DAYS = 100
-SIMULATE_INTERVAL = 10
+SIMULATE_MAX_DAYS = 50
+SIMULATE_INTERVAL = 1
 
 
 def test_animals():
@@ -46,12 +46,12 @@ def test_animals():
     # Create lions and antelopes.
     animals = []
     for i in range(NUMBER_OF_LIONS):
-        behaviour = CarnivoreBehaviour()
-        animal = Animal("Lion", behaviour, starting_hunger=0.5)
+        behaviour = CarnivoreBehaviour(chance_to_find_food=0.2, chance_to_catch_prey=0.5)
+        animal = Animal("Lion", behaviour, gestation_period=10, starting_hunger=0.5)  # Actual gestation period 110 days
         animals.append(animal)
     for i in range(NUMBER_OF_ANTELOPES):
         behaviour = HerbivoreBehaviour(chance_to_find_food=0.3)
-        animal = Animal("Antelope", behaviour, starting_hunger=0.6)
+        animal = Animal("Antelope", behaviour, starting_hunger=0.6)  # Actual gestation period 165 days
         animals.append(animal)
     print(animals)
 
@@ -60,9 +60,14 @@ def test_animals():
     while days_simulated < SIMULATE_MAX_DAYS:
         print("-" * 50 * len(animals))
         print(f"Simulation day {days_simulated}:")
+        count_total = 0
+        alive_total = 0
         for animal in animals:
             animal.simulate(SIMULATE_INTERVAL, animals)
-        print(animals)
+            count_total += 1
+            if animal.is_alive:
+                alive_total += 1
+        print(f"Total animals: {count_total}  Alive: {alive_total} {animals}")
         days_simulated += SIMULATE_INTERVAL
 
 

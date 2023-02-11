@@ -100,8 +100,12 @@ from something import do_something
 
 
 def main():
-    do_something(2, 4, mode="divide")  # Produces a "mode not supported" error!
-    do_something(2, 0, mode="divide", value_on_zero_division=10)  # Produces an "unexpected keyword argument"!
+    print(do_something(2, 4, mode="divide"))  # Produces a "mode not supported" error!
+    print(do_something(2, 0, mode="divide", value_on_zero_division=10))  # Produces an "unexpected keyword argument"!
+    a = 16
+    b = 5
+    division_result = do_something(a, b, mode="divide")
+    print(f"Modulo of {a} % {b} = {a - (int(division_result) * b)}")
 
 
 if __name__ == '__main__':

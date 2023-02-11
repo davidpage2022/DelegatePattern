@@ -80,6 +80,7 @@ Refer to animal_tests.py for expected output.
 """
 import random
 
+from animal import Animal
 from animal_behaviour import AnimalBehaviour
 
 
@@ -130,7 +131,72 @@ class HerbivoreBehaviour(AnimalBehaviour):
 
 class CarnivoreBehaviour(AnimalBehaviour):
     """Describes the behaviour of a meat-eating animal."""
+    HUNGER_DECREASE_ON_EAT = 0.2
+    CHANCE_TO_DIE_OF_AGE_PER_DAY_LIVED = 0.00018
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, chance_to_find_food=0.05, chance_to_catch_prey=0.2, chance_to_be_fertile=0.1,
+                 **kwargs):
+        """ Construct a carnivore behaviour. Inherited from AnimalBehaviour."""
+        super().__init__(**kwargs)  # Pass on keyword arguments to AnimalBehaviour.__init__().
+        self.chance_to_find_food = chance_to_find_food
+        self.chance_to_catch_prey = chance_to_catch_prey
+        self.chance_to_be_fertile = chance_to_be_fertile
 
+    def handle_hunt(self, animal, other_animals):  # Overrides AnimalBehaviour.handle_hunt()
+        """Handle an animal hunting for another animal to eat in the wild.
+
+        :param animal: The animal that is hunting.
+        :param other_animals: A list of all animals (excluding the animal that is hunting).
+        :returns: Returns the animal that was caught.
+        If no animal was caught, returns None."""
+        if random.uniform(0.0, 1.0) <= self.chance_to_catch_prey and len(other_animals) >= 1:
+            animal_to_eat = other_animals[random.randint(0, len(other_animals) - 1)]
+            return animal_to_eat
+        else:
+            return None
+
+    def handle_eat(self, animal, animal_to_eat=None):  # Overrides AnimalBehaviour.handle_eat()
+        """Handles an animal eating another animal.
+
+        :param animal: The animal that is eating.
+        :param animal_to_eat: The animal being eaten. Is None if the animal is eating plant food.
+        :returns: Returns the is_alive status of the animal being eaten as False."""
+        animal.hunger -= self.HUNGER_DECREASE_ON_EAT
+        if animal.hunger < 0.0:
+            animal.hunger = 0.0
+        if animal_to_eat.is_alive:
+            animal_to_eat.is_alive = False
+            return animal_to_eat.is_alive
+
+    def handle_breeding(self, animal):
+        """Assign a live animal as pregnant using factors of low hunger level, high fertility
+        and randomisation, and return is_pregnant as True."""
+        if animal.is_alive:
+            if animal.hunger / random.uniform(1.0, 2.0) <= self.chance_to_be_fertile:
+                animal.is_pregnant = True
+                return animal.is_pregnant
+
+    def give_birth(self, animal):
+        """Trigger the addition of offspring to the list and reset animal to not pregnant
+        with 0 gestation days."""
+        if animal.is_alive:
+            animal.is_postpartum = True
+            animal.is_pregnant = False
+            animal.days_gestation = 0
+
+    def create_offspring(self, animal):
+        """Create a new object of the animal."""
+        offspring = Animal(animal.name, animal.behaviour, animal.gestation_period)
+        return offspring
+
+    def handle_day_passed(self, animal):  # Overrides AnimalBehaviour.handle_day_passed
+        """Handles a single day passing for an animal.
+
+        Call this method from the derived class to increase animal hunger.
+        The animal will die of starvation if hunger exceeds 1.0.
+        :param animal: The animal for which a day has passed."""
+        super().handle_day_passed(animal)
+        chance_to_die = animal.days_lived * self.CHANCE_TO_DIE_OF_AGE_PER_DAY_LIVED
+        random_chance = random.uniform(0.0, 1.0)
+        if random_chance <= chance_to_die:
+            animal.is_alive = False

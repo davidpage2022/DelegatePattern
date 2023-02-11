@@ -47,6 +47,7 @@ DO NOT MODIFY THIS FILE.
 
 """
 from abc import ABC, abstractmethod
+from animal import Animal
 
 
 class AnimalBehaviour(ABC):
@@ -54,7 +55,7 @@ class AnimalBehaviour(ABC):
 
     Create your own classes that derive from AnimalBehaviour to customise the behaviour."""
 
-    @abstractmethod
+    # @abstractmethod
     def __init__(self, hunger_increase_per_day=0.005):
         """Construct an animal behaviour.
 
@@ -68,7 +69,7 @@ class AnimalBehaviour(ABC):
         """Handle an animal hunting for another animal to eat in the wild.
 
         :param animal: The animal that is hunting.
-        :param other_animals: A list of all animals (excluding the animal that is hunting).
+        :param other_animals: A list of all live animals (excluding the animal that is hunting).
         :returns: Returns the animal that was caught.
         If no animal was caught, returns None."""
         return None
@@ -86,6 +87,15 @@ class AnimalBehaviour(ABC):
         :param animal: The animal that is eating.
         :param animal_to_eat: The animal being eaten. Is None if the animal is eating plant food."""
         pass  # Do nothing by default.
+
+    def handle_breeding(self, animal):
+        pass
+
+    def give_birth(self, animal):
+        pass
+
+    def create_offspring(self, animal):
+        pass
 
     def handle_day_passed(self, animal):
         """Handles a single day passing for an animal.
